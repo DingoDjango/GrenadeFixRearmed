@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Grenade Fix: Rearmed</name>
+	<author>Dingo</author>
+	<url>https://ludeon.com/forums/index.php?topic=26077</url>
+	<targetVersion>0.15.0</targetVersion>
+	<description>(Based on the idea behind A14 mod "Grenade Fix" by TheFlameTouched)
+
+This mod dynamically injects a minimum range to any weapon with an explosive projectile:
+Grenades, launchers, mortars and even items added by mods.
+
+The minimum range is slightly larger than the weapon's explosion radius, ensuring that pawns won't explode themselves by accident.</description>
+</ModMetaData>
