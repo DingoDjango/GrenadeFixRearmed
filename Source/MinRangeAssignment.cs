@@ -31,20 +31,27 @@ namespace GrenadeFixRearmed
 			Log.Message("GrenadeFixRearmed :: Found " + explosives.Count + " explosives.");
 #endif
 
+			List<ThingDef> injectedDefs = new List<ThingDef>();
+
 			foreach (var thing in explosives)
 			{
 				var thingVerbs = thing.Verbs;
 				foreach (var verb in thingVerbs)
 				{
 					float explosionRadius = verb.projectileDef.projectile.explosionRadius;
-					verb.minRange = explosionRadius + 0.1f;
+					if (verb.minRange < explosionRadius)
+					{
+						verb.minRange = explosionRadius + 0.1f;
 #if DEBUG
-					Log.Message("GrenadeFixRearmed :: Set minRange for " + thing.label + " (" + thing.defName + ")");
+						Log.Message("GrenadeFixRearmed :: Set minRange for " + thing.label + " (" + thing.defName + ")");
 #endif
+						injectedDefs.Add(thing);
+					}
 				}
 			}
 
-			Log.Message("GrenadeFixRearmed :: Defined minRange for " + explosives.Count + " explosives.");
+			Log.Message("GrenadeFixRearmed :: Defined minRange for " + injectedDefs.Count + " explosives.");
+			injectedDefs.Clear();
 		}
 	}
 
