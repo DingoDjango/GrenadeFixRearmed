@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Verse;
-using UnityEngine;
+﻿using Verse;
 
 namespace GrenadeFixRearmed
 {
@@ -9,23 +7,20 @@ namespace GrenadeFixRearmed
 	{
 		static GrenadeFixRearmed()
 		{
-			while (!PlayDataLoader.Loaded)
-			{
-				new WaitForSeconds(1f);
-			}
+			LongEventHandler.QueueLongEvent(InjectDefs, "GrenadeFixRearmed", false, null);
+		}
 
-			//Generate a list of projectile weapons
-			var projectileWeapons = DefDatabase<ThingDef>.AllDefsListForReading.FindAll(v => v.Verbs.Exists(x => x.projectileDef != null));
-
-			//Generate a list of explosive projectile weapons based on the previous list
-			var explosives = projectileWeapons.FindAll(v => v.Verbs.Exists(x => x.projectileDef.projectile.explosionRadius > 0f));
+		private static void InjectDefs()
+		{
+			//Generate a list of explosive projectile weapons
+			var explosives = DefDatabase<ThingDef>.AllDefsListForReading.FindAll(v => v.Verbs.Any(x => x.projectileDef != null && x.projectileDef.projectile.explosionRadius > 0f));
 
 #if DEBUG
-				Log.Message("GrenadeFixRearmed :: Found " + explosives.Count + " explosive projectile weapons.");
+			Log.Message("GrenadeFixRearmed :: Found " + explosives.Count + " explosive projectile weapons.");
 #endif
 
-			//Make a temporary list so we can report how many defs are affected
-			List<ThingDef> injectedDefs = new List<ThingDef>();
+			//Count the number of ThingDefs we change
+			int injectedDefs = 0;
 
 			foreach (var thing in explosives)
 			{
@@ -33,23 +28,24 @@ namespace GrenadeFixRearmed
 				foreach (var verb in thingVerbs)
 				{
 					float explosionRadius = verb.projectileDef.projectile.explosionRadius;
+
 					//Only change minRange if it's unsafe
 					if (verb.minRange < explosionRadius)
 					{
 						verb.minRange = explosionRadius + 0.1f;
+
+						//Increase modified ThingDefs total count
+						injectedDefs++;
+
 #if DEBUG
-							Log.Message("GrenadeFixRearmed :: Set minRange for " + thing.label + " (" + thing.defName + ")");
+						Log.Message("GrenadeFixRearmed :: Set minRange for " + thing.label + " (" + thing.defName + ")");
 #endif
-						//Add this ThingDef to our temporary list so we can track that it's been affected
-						injectedDefs.Add(thing);
 					}
 				}
 			}
 
 			//Report the total number of ThingDefs changed to the user
-			Log.Message("GrenadeFixRearmed :: Defined minRange for " + injectedDefs.Count + " explosive weapons.");
-			//Clear our temporary list, just in-case
-			injectedDefs.Clear();
+			Log.Message("GrenadeFixRearmed :: Defined minRange for " + injectedDefs + " explosive weapons.");
 		}
 	}
 }
