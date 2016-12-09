@@ -45,7 +45,7 @@ namespace GrenadeFixRearmed
 			}
 
 			//Report the total number of ThingDefs changed to the user
-			Log.Message("GrenadeFixRearmed :: Defined minRange for " + injectedDefs + " explosive weapons.");
+			Log.Message("message_toUser_part1".Translate() + " " + injectedDefs + " " + "message_toUser_part2".Translate());
 		}
 	}
 }
