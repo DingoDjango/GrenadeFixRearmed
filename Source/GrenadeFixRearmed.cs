@@ -12,6 +12,8 @@ namespace GrenadeFixRearmed
 
 		private static void InjectDefs()
 		{
+			LongEventHandler.SetCurrentEventText("Grenade Fix: Rearmed (Working)");
+
 			//Generate a list of explosive projectile weapons
 			var explosives = DefDatabase<ThingDef>.AllDefsListForReading.FindAll(v => v.Verbs.Any(x => x.projectileDef != null && x.projectileDef.projectile.explosionRadius > 0f));
 
@@ -24,8 +26,7 @@ namespace GrenadeFixRearmed
 
 			foreach (var thing in explosives)
 			{
-				var thingVerbs = thing.Verbs;
-				foreach (var verb in thingVerbs)
+				foreach (var verb in thing.Verbs)
 				{
 					float explosionRadius = verb.projectileDef.projectile.explosionRadius;
 
@@ -45,7 +46,7 @@ namespace GrenadeFixRearmed
 			}
 
 			//Report the total number of ThingDefs changed to the user
-			Log.Message("message_toUser_part1".Translate() + " " + injectedDefs + " " + "message_toUser_part2".Translate());
+			Log.Message("GFR_FinalMessage_part1".Translate() + " " + injectedDefs + " " + "GFR_FinalMessage_part2".Translate());
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-	<message_toUser_part1>GrenadeFixRearmed :: Defined minRange for</message_toUser_part1>
-	<message_toUser_part2>explosive weapons.</message_toUser_part2>
+	<GFR_FinalMessage_part1>GrenadeFixRearmed :: Defined minimum range for</GFR_FinalMessage_part1>
+	<GFR_FinalMessage_part2>explosive weapons.</GFR_FinalMessage_part2>
 
 </LanguageData>
