@@ -3,62 +3,67 @@ using Verse;
 
 namespace GrenadeFixRearmed
 {
-	[StaticConstructorOnStartup]
-	public static class GrenadeFixRearmed
+	public class GrenadeFixRearmed : GameComponent
 	{
-		static GrenadeFixRearmed()
+		public GrenadeFixRearmed()
 		{
-			LongEventHandler.QueueLongEvent(InjectDefs, "GrenadeFixRearmed", false, null);
 		}
 
-		private static List<ThingDef> explosives = new List<ThingDef>();
+		public GrenadeFixRearmed(Game game)
+		{
+		}
 
-		private static void InjectDefs()
+		public override void StartedNewGame()
+		{
+			InjectDefs();
+		}
+
+		public override void LoadedGame()
+		{
+			InjectDefs();
+		}
+
+		private void InjectDefs()
 		{
 			//Generate a list of explosive projectile weapons
-			List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
-			for (int i = 0; i < thingDefs.Count; i++)
-			{
-				if (thingDefs[i].Verbs.Any(verb => verb.projectileDef != null))
-				{
-					if (thingDefs[i].Verbs.Any(verb => verb.projectileDef.projectile.explosionRadius > 0f))
-					{
-						if (!explosives.Contains(thingDefs[i]))
-						{
-							explosives.Add(thingDefs[i]);
-						}
-					}
-				}
-			}
+			List<ThingDef> explosives = DefDatabase<ThingDef>.AllDefsListForReading.FindAll(def => def.Verbs.Exists(v => v.projectileDef != null && v.projectileDef.projectile.explosionRadius > 0f));
 
 #if DEBUG
 			Log.Message("GrenadeFixRearmed :: Found " + explosives.Count + " explosive projectile weapons.");
 #endif
 
-			//Count the number of ThingDefs we change
-			int injectedDefs = 0;
+			//Count the number of verbs we change
+			int injectedVerbs = 0;
 
-			for (int j = 0; j < explosives.Count; j++)
+			for (int i = 0; i < explosives.Count; i++)
 			{
-				var verb = explosives[j].Verbs.Find(v => v.projectileDef.projectile.explosionRadius > 0f);
-				float explosionRadius = verb.projectileDef.projectile.explosionRadius;
+				var verbList = explosives[i].Verbs;
 
-				//Only change minRange if it's unsafe
-				if (verb.minRange < explosionRadius)
+				for (int j = 0; j < verbList.Count; j++)
 				{
-					verb.minRange = explosionRadius + 0.1f;
+					var ev = verbList[j];
 
-					//Increase modified ThingDefs total count
-					injectedDefs++;
+					if (ev.projectileDef != null)
+					{
+						if (ev.projectileDef.projectile.explosionRadius > 0f)
+						{
+							float explosionRad = ev.projectileDef.projectile.explosionRadius;
 
-#if DEBUG
-						Log.Message("GrenadeFixRearmed :: Set minRange for " + thing.label + " (" + thing.defName + ")");
-#endif
+							//Added check for safe minrange
+							if (ev.minRange < explosionRad)
+							{
+								ev.minRange = explosionRad + 0.5f;
+
+								//Increase modified verbs count
+								injectedVerbs++;
+							}
+						}
+					}
 				}
 			}
 
 			//Report the total number of ThingDefs changed to the user
-			Log.Message("GFR_FinalMessage_part1".Translate() + " " + injectedDefs + " " + "GFR_FinalMessage_part2".Translate());
+			Log.Message("GFR_FinalMessage_part1".Translate() + " " + injectedVerbs + " " + "GFR_FinalMessage_part2".Translate());
 		}
 	}
 }
