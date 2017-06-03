@@ -5,6 +5,10 @@ namespace GrenadeFixRearmed
 {
 	public class GrenadeFixRearmed : GameComponent
 	{
+        /* In A17 an error is thrown if the GameComponent does not include constructors.
+        A parameterless constructor is necessary for LoadedGame(),
+        A (Game game) constructor is necessary for StartedNewGame() */
+
 		public GrenadeFixRearmed()
 		{
 		}
