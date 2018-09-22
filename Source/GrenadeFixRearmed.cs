@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace GrenadeFixRearmed
@@ -9,29 +11,30 @@ namespace GrenadeFixRearmed
 		static GrenadeFixRearmed()
 		{
 			//Find all explosive projectile weapons
-			List<ThingDef> explosives = DefDatabase<ThingDef>.AllDefsListForReading.FindAll(def =>
-			def.Verbs.Exists(v => v.defaultProjectile?.projectile.explosionRadius > 0f));
+			IEnumerable<ThingDef> explosives = DefDatabase<ThingDef>.AllDefs.Where(def => def.Verbs.Exists(verb => verb.CausesExplosion));
 
 #if DEBUG
-			Log.Message($"GrenadeFixRearmed :: Found {explosives.Count} explosives.");
+			Log.Message($"GrenadeFixRearmed :: Found {explosives.Count()} explosives.");
 #endif
 
-			for (int i = 0; i < explosives.Count; i++)
+			foreach (ThingDef thing in explosives)
 			{
-				ThingDef thing = explosives[i];
+#if DEBUG
+				Log.Message($"GrenadeFixRearmed :: Working on '{thing.label}' (defName = '{thing.defName}')");
+#endif
 
-				for (int j = 0; j < thing.Verbs.Count; j++)
+				foreach (VerbProperties verb in thing.Verbs)
 				{
-					VerbProperties verb = thing.Verbs[j];
-
-					float explosionRadius = verb.defaultProjectile?.projectile.explosionRadius ?? 0f;
-
-					if (verb.minRange <= explosionRadius)
+					if (verb.CausesExplosion)
 					{
-						verb.minRange = explosionRadius + 0.5f;
+#if DEBUG
+						Log.Message($"GrenadeFixRearmed :: Injecting for '{verb.label}' with minRange {verb.minRange}");
+#endif
+
+						verb.minRange = Mathf.Max(verb.minRange, verb.defaultProjectile.projectile.explosionRadius + 0.5f);
 
 #if DEBUG
-						Log.Message($"GrenadeFixRearmed :: Injected to {thing.label}.");
+						Log.Message($"GrenadeFixRearmed :: New '{verb.label}' minRange = {verb.minRange}");
 #endif
 					}
 				}
