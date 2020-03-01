@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace GrenadeFixRearmed
+namespace Grenade_Fix_Rearmed
 {
 	[StaticConstructorOnStartup]
-	public static class GrenadeFixRearmed
+	public static class Main
 	{
-		static GrenadeFixRearmed()
+		static Main()
 		{
 			//Find all explosive projectile weapons
 			IEnumerable<ThingDef> explosives = DefDatabase<ThingDef>.AllDefs.Where(def => def.Verbs.Exists(verb => verb.CausesExplosion));

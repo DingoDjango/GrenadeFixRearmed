@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Grenade_Fix_Rearmed")]
+[assembly: AssemblyTitle("Grenade Fix Rearmed")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Grenade_Fix_Rearmed")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("Grenade Fix Rearmed")]
+[assembly: AssemblyCopyright("Copyright © Dingo 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d5769885-314b-4ea0-887a-878500762536")]
+[assembly: Guid("8aaf4a07-19e6-4d10-b7dd-75fa0cda210c")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,8 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.2059.1")]
-[assembly: AssemblyFileVersion("1.0.2059.1")]
+[assembly: AssemblyVersion("1.1.7364.1")]
+[assembly: AssemblyFileVersion("1.1.7364.1")]
