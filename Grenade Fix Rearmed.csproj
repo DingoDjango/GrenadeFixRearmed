@@ -83,14 +83,9 @@
     <Content Include="About\About.xml" />
     <Content Include="About\Manifest.xml" />
     <Content Include="About\ModSync.xml" />
-    <Content Include="About\Preview.png" />
-    <Content Include="About\PublishedFileId.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LoadFolders.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Current\Assemblies\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -110,13 +105,24 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)"
-xcopy "$(ProjectDir)1.0" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)\1.0" /i /e /r /y
-xcopy "$(ProjectDir)1.1" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)\1.1" /i /e /r /y
-xcopy "$(ProjectDir)About" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)\About" /i /e /r /y
-xcopy "$(ProjectDir)Current" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)\Current" /i /e /r /y
-xcopy "$(ProjectDir)LoadFolders.xml" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)" /r /y
-	
+    <PostBuildEvent>SET MODDIR=C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)
+SET ZIPFILE=D:\Downloads\$(ProjectName).zip
+
+mkdir "%25MODDIR%25"
+
+xcopy "$(ProjectDir)1.0" "%25MODDIR%25\1.0" /i /e /r /y
+xcopy "$(ProjectDir)1.1" "%25MODDIR%25\1.1" /i /e /r /y
+
+xcopy "$(ProjectDir)About" "%25MODDIR%25\About" /i /e /r /y
+
+xcopy "$(ProjectDir)Current" "%25MODDIR%25\Current" /i /e /r /y
+
+xcopy "$(ProjectDir)LoadFolders.xml" "%25MODDIR%25" /r /y
+
+
+
+7z a -mx9 "%25ZIPFILE%25" "%25MODDIR%25"
+
 cd $(ProjectDir)
 del /f /s /q bin
 del /f /s /q obj
