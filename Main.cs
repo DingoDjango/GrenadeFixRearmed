@@ -22,18 +22,10 @@ namespace Grenade_Fix_Rearmed
 
 			foreach (ThingDef thing in explosives)
 			{
-#if DEBUG
-				Log.Message($"GrenadeFixRearmed :: Working on '{thing.label}' (defName = '{thing.defName}')");
-#endif
-
 				foreach (VerbProperties verb in thing.Verbs)
 				{
 					if (verb.CausesExplosion)
 					{
-#if DEBUG
-						Log.Message($"GrenadeFixRearmed :: Injecting for '{verb.label}' with minRange {verb.minRange}");
-#endif
-
 						verb.minRange = Mathf.Max(verb.minRange, verb.defaultProjectile.projectile.explosionRadius + 0.5f);
 
 #if DEBUG
@@ -42,10 +34,6 @@ namespace Grenade_Fix_Rearmed
 					}
 				}
 			}
-
-#if DEBUG
-			Log.Message("GrenadeFixRearmed :: Finished injecting minimum safe ranges.");
-#endif
 		}
 	}
 }
