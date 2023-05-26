@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace Grenade_Fix_Rearmed
 {
-	[StaticConstructorOnStartup]
+    [StaticConstructorOnStartup]
 	public static class Main
 	{
 		static Main()

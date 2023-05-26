@@ -76,14 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Grenade Fix Rearmed\About\About.xml" />
-    <Content Include="Grenade Fix Rearmed\About\Manifest.xml" />
-    <Content Include="Grenade Fix Rearmed\About\ModSync.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Grenade Fix Rearmed\LoadFolders.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,12 +101,7 @@ mkdir "%25MODDIR%25"
 xcopy "$(ProjectDir)$(ProjectName)\*" "%25MODDIR%25" /i /e /r /y
 
 7z a -mx9 "%25ZIPFILE%25" "%25MODDIR%25"
-
-cd $(ProjectDir)
-del /f /s /q bin
-del /f /s /q obj
-rmdir /s /q bin
-rmdir /s /q obj</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>cd $(OutDir)
