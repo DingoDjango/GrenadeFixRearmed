@@ -94,7 +94,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET MODDIR=C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(ProjectName)
-SET ZIPFILE=$(USERPROFILE)\Downloads\$(ProjectName).zip
+SET ZIPFILE=D:\Downloads\$(ProjectName).zip
 
 mkdir "%25MODDIR%25"
 
